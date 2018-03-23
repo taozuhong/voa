@@ -1,6 +1,13 @@
 # voa
 the is tool is designed to download VOA audio resource 
 
+# install
+1. install depend library
+libcurl gumbo-parser 
+
+2. make & make install
+
+
 # Usage
 ```
 voa [url] {OPTIONS}
@@ -26,6 +33,7 @@ There are two special environment variables. 'all_proxy' is what sets proxy for 
 
 
 # Compile
+compile the source in command 
 ```
 compile single module and fix errors:
 g++ -S -std=c++11 -I /usr/include/curl  voa_html.cpp
@@ -36,5 +44,4 @@ g++ -o voa -std=c++11 -l curl -l gumbo -I /usr/include/curl -I /usr/local/includ
 compile directive with debug
 g++ -o voa -g -std=c++11 -l curl -l gumbo -I /usr/include/curl -I /usr/local/include  voa.cpp voa_html.cpp voa_curl.cpp
 ```
-
 

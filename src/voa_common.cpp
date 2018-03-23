@@ -79,8 +79,8 @@ string GetFullPathFromUrl(const string & url)
 string GetFullUrl(const string & relativeUrl, const string & fullUrl)
 {
     string strTemp = relativeUrl;
-    std::transform(strTemp.begin(), strTemp.end(),strTemp.begin(), ::toupper);
-    if(string::npos == strTemp.find("HTTP"))
+    // std::transform(strTemp.begin(), strTemp.end(),strTemp.begin(), ::toupper);
+    if(string::npos == strTemp.find("http"))
     {
         // https://learningenglish.voanews.com/z/1689
         strTemp = fullUrl.substr(0, fullUrl.find_first_of('/', 8));

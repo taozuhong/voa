@@ -3,7 +3,9 @@ the is tool is designed to download VOA audio resource
 
 # install
 1. install depend library
-libcurl gumbo-parser 
+[libcurl](https://github.com/curl/curl)
+[gumbo-parser](https://github.com/google/gumbo-parser)
+[args](https://github.com/Taywee/args)
 
 2. make & make install
 

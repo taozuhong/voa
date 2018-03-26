@@ -9,6 +9,8 @@
 **    May you find forgiveness for yourself and forgive others.
 **    May you share freely, never taking more than you give.
 **
+**    Author: taozuhong@google.com (Andy Tao)
+**
 *************************************************************************/
 
 #include <iostream>
@@ -18,16 +20,17 @@
 #include "args.hxx"
 #include "voa_common.h"
 
-int DeepDownload(const string & url, const string & ext, int depthLevel = 1);
+int DeepDownload(const string & url, const string & extension, int depthLevel = 1, const string filter = "");
 
-int main(int argc, char** argv)
+int main(int argc, const char** argv)
 {
 
     args::ArgumentParser parser("VOA English audio & video downloader", "This goes after the options.");
-    args::HelpFlag help(parser, "help", "Display this help menu", {'h', "help"});
+    args::HelpFlag help(parser, "Help", "Display this help menu", {'h', "help"});
     //args::ValueFlag<int> integer(parser, "integer", "The integer flag", {'i'});
-    args::ValueFlag<std::string> argType(parser, "type", "The file extension", {'t', "type"});
-    args::Positional<std::string> argUrl(parser, "url", "the target url location");
+    args::ValueFlag<std::string> argExt(parser, "Extension", "The file extension", {'e', "ext"}, "mp3");
+    args::ValueFlag<std::string> argFilter(parser, "Filter", "The file filter", {'f', "filter"}, "");
+    args::Positional<std::string> argUrl(parser, "Url", "the target url location");
     //args::PositionalList<double> numbers(parser, "numbers", "The numbers position list");
     try
     {
@@ -54,7 +57,8 @@ int main(int argc, char** argv)
     //if (integer) { std::cout << "i: " << args::get(integer) << std::endl; }
     //if (characters) { for (const auto ch: args::get(characters)) { std::cout << "c: " << ch << std::endl; } }
     if (argUrl) { std::cout << "Url: " << args::get(argUrl) << std::endl; }
-    if (argType) { std::cout << "Type: " << args::get(argType) << std::endl; }
+    if (argExt) { std::cout << "Extension: " << args::get(argExt) << std::endl; }
+    if (argFilter) { std::cout << "Filter: " << args::get(argFilter) << std::endl; }
     //if (numbers) { for (const auto nm: args::get(numbers)) { std::cout << "n: " << nm << std::endl; } } 
 
     /*
@@ -64,15 +68,15 @@ int main(int argc, char** argv)
     }
     */
 
-    
 
-    string strUrl = args::get(argUrl); // "https://learningenglish.voanews.com/a/4283319.html";
-    string strExt = args::get(argType); // "mp3";
-    return DeepDownload(strUrl, strExt, 2);
+    string strUrl = args::get(argUrl); // "https://learningenglish.voanews.com/p/5631.html";
+    string strExt = args::get(argExt); // "mp4";
+    string strFilter = args::get(argFilter); // "_fullhd";
+    return DeepDownload(strUrl, strExt, 2, strFilter);
 }
 
 
-int DeepDownload(const string & url, const string & ext, int depthLevel)
+int DeepDownload(const string & url, const string & extension, int depthLevel, const string filter)
 {
     CVoaCurl voaCurl;
     voaCurl.Initialize(url);
@@ -92,7 +96,7 @@ int DeepDownload(const string & url, const string & ext, int depthLevel)
 
     // find target resource in page
     vector<string> resLinkVector;
-    voaHtml.GetLinks(resLinkVector, ext);
+    voaHtml.GetLinks(resLinkVector, extension, filter);
 
     // start the multi level digg
     vector<string> webLinkVector;
@@ -114,7 +118,7 @@ int DeepDownload(const string & url, const string & ext, int depthLevel)
             if (voaHtml.Initialize(url, strHtmlSource))
             {
                 // find target resource in page
-                voaHtml.GetLinks(resLinkVector, ext);
+                voaHtml.GetLinks(resLinkVector, extension, filter);
 
                 // find new page in page
                 //voaHtml.GetLinks(webLinksAgain, "htm");

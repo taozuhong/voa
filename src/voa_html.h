@@ -9,6 +9,8 @@
 **    May you find forgiveness for yourself and forgive others.
 **    May you share freely, never taking more than you give.
 **
+**    Author: taozuhong@google.com (Andy Tao)
+**
 *************************************************************************/
 
 #include <string>
@@ -26,13 +28,13 @@ class CVoaHtml
     GumboOutput* m_pHtmlOutput = NULL;
     
     bool LoadHtml(const string & htmlFile);
-    static int GetLinks(const string & url, const GumboNode* node, vector<string> & linkVector, const string & filter = "mp3");
+    static int GetLinks(const string & url, const GumboNode* node, vector<string> & linkVector, const string & extension = "mp3", const string & filter = "");
         
     public:
     CVoaHtml();
     ~CVoaHtml();
     
     bool Initialize(const string & url, const string & htmlSource);
-    int GetLinks(vector<string> & linkVector, const string & filter = "mp3");
+    int GetLinks(vector<string> & linkVector, const string & extension = "mp3", const string & filter="");
 };
 

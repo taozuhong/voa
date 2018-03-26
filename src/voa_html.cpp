@@ -9,6 +9,8 @@
 **    May you find forgiveness for yourself and forgive others.
 **    May you share freely, never taking more than you give.
 **
+**    Author: taozuhong@google.com (Andy Tao)
+**
 *************************************************************************/
 
 #include "voa_html.h"
@@ -34,14 +36,14 @@ CVoaHtml::~CVoaHtml()
     
 }
 
-int CVoaHtml::GetLinks(vector<string> & linkVector, const string & filter)
+int CVoaHtml::GetLinks(vector<string> & linkVector, const string & extension, const string & filter)
 {
     if ((NULL == m_pHtmlOutput) || (m_pHtmlOutput->root->type != GUMBO_NODE_ELEMENT)) 
     {
         return 0;
     }
 
-    return GetLinks(m_Url, m_pHtmlOutput->root, linkVector, filter);
+    return GetLinks(m_Url, m_pHtmlOutput->root, linkVector, extension, filter);
 }
 
 bool CVoaHtml::Initialize(const string & url, const string & htmlSource)
@@ -78,7 +80,7 @@ bool CVoaHtml::LoadHtml(const string & htmlFile)
     return !m_HtmlSource.empty();
 }
 
-int CVoaHtml::GetLinks(const string & url, const GumboNode* node, vector<string> & linkVector, const string & filter)
+int CVoaHtml::GetLinks(const string & url, const GumboNode* node, vector<string> & linkVector, const string & extension, const string & filter)
 {
     size_t linkCount = 0;
     GumboAttribute* href = NULL;
@@ -89,7 +91,7 @@ int CVoaHtml::GetLinks(const string & url, const GumboNode* node, vector<string>
         if (NULL != href)
         {
             string strTempUrl = href->value;
-            if (IsUrlMatchPattern(strTempUrl,filter))
+            if (IsUrlMatchPattern(strTempUrl, extension, filter))
             {
                 // append link if it not exist
                 bool linkFound = false;
@@ -121,7 +123,7 @@ int CVoaHtml::GetLinks(const string & url, const GumboNode* node, vector<string>
             childNode = static_cast<GumboNode *>(children->data[i]);
             if ((NULL != childNode) && (GUMBO_NODE_ELEMENT == childNode->type))
             {
-                linkCount += GetLinks(url, childNode, linkVector, filter);
+                linkCount += GetLinks(url, childNode, linkVector, extension, filter);
             }
         }
     }

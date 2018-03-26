@@ -9,6 +9,8 @@
 **    May you find forgiveness for yourself and forgive others.
 **    May you share freely, never taking more than you give.
 **
+**    Author: taozuhong@google.com (Andy Tao)
+**
 *************************************************************************/
 
 #include "voa_common.h"
@@ -90,9 +92,21 @@ string GetFullUrl(const string & relativeUrl, const string & fullUrl)
     return  strTemp;
 }
 
-bool IsUrlMatchPattern(const string & url, const string & filter)
+bool IsUrlMatchPattern(const string & url, const string & extension, const string & filter)
 {
+    bool isMatch = true;
     size_t char_index = url.find('?');
+    if (! extension.empty()) {
+        isMatch = (string::npos == char_index) ? \
+              (string::npos != url.find(extension)) : \
+              (string::npos != url.rfind(extension, char_index));
+    }
 
-    return  (string::npos == char_index) ? (string::npos != url.find(filter)) : (string::npos != url.rfind(filter, char_index));
+    if (isMatch && (!filter.empty())) {
+        isMatch = isMatch && ((string::npos == char_index) ? \
+                              (string::npos != url.find(filter)) : \
+                              (string::npos != url.rfind(filter, char_index)));
+    }
+
+    return  isMatch;
 }

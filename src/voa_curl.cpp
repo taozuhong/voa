@@ -9,6 +9,8 @@
 **    May you find forgiveness for yourself and forgive others.
 **    May you share freely, never taking more than you give.
 **
+**    Author: taozuhong@google.com (Andy Tao)
+**
 *************************************************************************/
 
 #include "voa_curl.h"
@@ -47,6 +49,10 @@ void CVoaCurl::Initialize(const string & url)
             curl_easy_setopt(m_CurlObj, CURLOPT_SSL_VERIFYHOST, 0L);
         }
     }
+
+
+    // setup proxy for test enviroment
+    // curl_easy_setopt(m_CurlObj, CURLOPT_PROXY, "web-proxyhk.oa.com:8080");
 
     
     /* register callback function and pass the key argument */ 

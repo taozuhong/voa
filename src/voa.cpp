@@ -25,7 +25,7 @@ int DeepDownload(const string & url, const string & extension, int depthLevel = 
 int main(int argc, const char** argv)
 {
 
-    args::ArgumentParser parser("VOA English audio & video downloader", "This goes after the options.");
+    args::ArgumentParser parser("VOA English audio & video downloader", "Welcome to contribute and share with friends.");
     args::HelpFlag help(parser, "Help", "Display this help menu", {'h', "help"});
     //args::ValueFlag<int> integer(parser, "integer", "The integer flag", {'i'});
     args::ValueFlag<std::string> argExt(parser, "Extension", "The file extension", {'e', "ext"}, "mp3");
@@ -38,19 +38,19 @@ int main(int argc, const char** argv)
     }
     catch (args::Help)
     {
-        std::cout << parser;
+        std::cout << parser << std::endl;
         return 0;
     }
     catch (args::ParseError e)
     {
         std::cerr << e.what() << std::endl;
-        std::cerr << parser;
+        std::cerr << parser << std::endl;
         return -1;
     }
     catch (args::ValidationError e)
     {
         std::cerr << e.what() << std::endl;
-        std::cerr << parser;
+        std::cerr << parser << std::endl;
         return -2;
     }
     
@@ -61,17 +61,16 @@ int main(int argc, const char** argv)
     if (argFilter) { std::cout << "Filter: " << args::get(argFilter) << std::endl; }
     //if (numbers) { for (const auto nm: args::get(numbers)) { std::cout << "n: " << nm << std::endl; } } 
 
-    /*
-    if(argc < 2) {
-        std::cout << parser;
-        return 0;
-    }
-    */
-
 
     string strUrl = args::get(argUrl); // "https://learningenglish.voanews.com/p/5631.html";
     string strExt = args::get(argExt); // "mp4";
     string strFilter = args::get(argFilter); // "_fullhd";
+	if (strUrl.empty())
+	{
+		std::cout << parser << std::endl;
+		return -3;
+	}
+
     return DeepDownload(strUrl, strExt, 2, strFilter);
 }
 
@@ -133,7 +132,7 @@ int DeepDownload(const string & url, const string & extension, int depthLevel, c
     }
 
 
-    // download the mp3 audio file in batch
+    // download the resource files in batch
     uint32_t fileCount = 0;
     for(auto it : resLinkVector)
     {

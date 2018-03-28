@@ -3,6 +3,6 @@
 	url = https://github.com/curl/curl.git
 
 [submodule "third_party/gumbo-parser"]
-    path = third_party/gumbo-parser
-    url = https://github.com/google/gumbo-parser.git
+	path = third_party/gumbo-parser
+	url = https://github.com/google/gumbo-parser.git
 

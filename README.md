@@ -7,6 +7,13 @@ the is tool is designed to download VOA audio resource
 [gumbo-parser](https://github.com/google/gumbo-parser)
 [args](https://github.com/Taywee/args)
 
+command to download all modules:
+```
+git submodule update --init --recursive
+cd third_party/<module>
+make & make install
+```
+
 2. make & make install
 
 
